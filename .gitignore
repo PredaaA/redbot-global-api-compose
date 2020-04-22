@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+.idea/.gitignore
+.idea/inspectionProfiles/
+.idea/misc.xml
+.idea/modules.xml
+.idea/redbot-global-api-compose.iml
+.idea/sonarlint/
+.idea/vcs.xml
+/.env
