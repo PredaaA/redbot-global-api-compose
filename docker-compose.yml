@@ -9,7 +9,7 @@ services:
     env_file:
       - .env
     networks:
-      - redaudioapi-net-redis
+      - redaudioapi-net
     volumes:
       - redaudioapi-vol-redis:/data
     restart: unless-stopped
@@ -23,7 +23,7 @@ services:
       - ./scripts:/docker-entrypoint-initdb.d
       - redaudioapi-vol-postgresql:/data/postgres
     networks:
-      - redaudioapi-net-postgres
+      - redaudioapi-net
     restart: unless-stopped
 
   pgadmin:
@@ -36,7 +36,7 @@ services:
     ports:
       - 5050:5050
     networks:
-      - redaudioapi-net-postgres
+      - redaudioapi-net
     restart: unless-stopped
 
   api:
@@ -48,8 +48,7 @@ services:
       RED_API_DATABASE: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres_containerv2/${POSTGRES_DB}
       REDIS_CACHED_DATA: redis://redaudioapi-redis/0
     networks:
-      - redaudioapi-net-redis
-      - redaudioapi-net-postgres
+      - redaudioapi-net
     depends_on:
       - postgres
       - redis
@@ -61,9 +60,7 @@ services:
       - postgres
 
 networks:
-  redaudioapi-net-postgres:
-    driver: bridge
-  redaudioapi-net-redis:
+  redaudioapi-net:
     driver: bridge
 
 volumes:
