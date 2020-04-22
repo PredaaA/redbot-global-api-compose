@@ -11,7 +11,7 @@ services:
     networks:
       - redaudioapi-net
     volumes:
-      - redaudioapi-vol-redis:/data
+      - ./redis/data:/data
     restart: unless-stopped
 
   postgres:
@@ -32,7 +32,7 @@ services:
     env_file:
       - .env
     volumes:
-       - redaudioapi-vol-pgadmin:/root/.pgadmin
+       - ./pgadmin:/root/.pgadmin
     ports:
       - 5050:5050
     networks:
@@ -45,7 +45,7 @@ services:
     env_file:
       - .env
     environment:
-      RED_API_DATABASE: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres_containerv2/${POSTGRES_DB}
+      RED_API_DATABASE: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@redaudioapi-postgres/${POSTGRES_DB}
       REDIS_CACHED_DATA: redis://redaudioapi-redis/0
     networks:
       - redaudioapi-net
@@ -66,5 +66,3 @@ networks:
 volumes:
   redaudioapi-vol-postgresql:
     external: true
-  redaudioapi-vol-pgadmin:
-  redaudioapi-vol-redis:
