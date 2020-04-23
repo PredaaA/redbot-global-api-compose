@@ -21,7 +21,7 @@ services:
       - .env
     volumes:
       - ./scripts:/docker-entrypoint-initdb.d
-      - redaudioapi-vol-postgresql:/data/postgres
+      - ./data/postgres:/var/lib/postgresql/data
     networks:
       - redaudioapi-net
     restart: unless-stopped
@@ -63,6 +63,6 @@ networks:
   redaudioapi-net:
     driver: bridge
 
-volumes:
-  redaudioapi-vol-postgresql: # Run `docker volume create --name=redaudioapi-vol-postgresql` before `docker-compose up -d`
-    external: true
+#volumes:
+#  redaudioapi-vol-postgresql: # Run `docker volume create --name=redaudioapi-vol-postgresql` before `docker-compose up -d`
+#    external: true
