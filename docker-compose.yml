@@ -4,7 +4,10 @@ services:
   redis:
     container_name: redaudioapi-redis
     hostname: redis
-    command: ["--appendonly", "yes", "--loadmodule", "/usr/lib/redis/modules/redisai.so",
+    command: ["--appendonly", "yes",
+              "--maxmemory", "2g",
+              "--maxmemory-policy","allkeys-lru",
+              "--loadmodule", "/usr/lib/redis/modules/redisai.so",
               "--loadmodule", "/usr/lib/redis/modules/redisearch.so",
               "--loadmodule", "/usr/lib/redis/modules/redisgraph.so",
               "--loadmodule", "/usr/lib/redis/modules/redistimeseries.so",
@@ -49,11 +52,12 @@ services:
   api:
     container_name: redaudioapi-api
     image: drapersniper/redbot-global-api:latest
+    # image: test:latest
     env_file:
       - .env
     environment:
       RED_API_DATABASE: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@redaudioapi-postgres/${POSTGRES_DB}
-      REDIS_CACHED_DATA: redis://redaudioapi-redis/0
+      REDIS_CACHED_DATA: redis://redaudioapi-redis
     networks:
       - redaudioapi-net
     depends_on:
