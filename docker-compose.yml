@@ -52,7 +52,7 @@ services:
   api:
     container_name: redaudioapi-api
     image: drapersniper/redbot-global-api:latest
-    # image: test:latest
+#    image: test:latest
     env_file:
       - .env
     environment:
@@ -79,6 +79,21 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./data/portainer:/data
+  pgbackup:
+    container_name: redaudioapi-pgbackup
+    image: kartoza/pg-backup:9.6
+    hostname: redaudioapi-pgbackup
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    volumes:
+      - ./data/backups:/backups
+    links:
+      - postgres:postgres
+    environment:
+      - POSTGRES_HOST=redaudioapi-postgres
+      - REMOVE_BEFORE=30
 
 volumes:
   redaudioapi-portainer_data:
