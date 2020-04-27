@@ -43,8 +43,6 @@ services:
       - .env
     volumes:
        - ./data/pgadmin:/root/.pgadmin
-    ports:
-      - 5050:5050
     networks:
       - redaudioapi-net
     restart: unless-stopped
@@ -63,22 +61,11 @@ services:
     depends_on:
       - postgres
       - redis
-    ports:
-      - 8000:8000
     restart: unless-stopped
     links:
       - redis
       - postgres
-#  portainer:
-#    container_name: redaudioapi-portainer
-#    image: portainer/portainer
-#    command: -H unix:///var/run/docker.sock
-#    restart: always
-#    ports:
-#      - 9000:9000
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#      - ./data/portainer:/data
+
   pgbackup:
     container_name: redaudioapi-pgbackup
     image: kartoza/pg-backup:9.6
