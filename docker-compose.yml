@@ -3,7 +3,7 @@ version: '3'
 services:
   redis:
     container_name: redaudioapi-redis
-    hostname: redis
+    hostname: redaudioapi-redis
     command: ["--appendonly", "yes",
               "--maxmemory", "2g",
               "--maxmemory-policy","allkeys-lru",
@@ -26,6 +26,7 @@ services:
 
   postgres:
     container_name: redaudioapi-postgres
+    hostname: redaudioapi-postgres
     image: postgres:12.0
     env_file:
       - .env
@@ -37,19 +38,19 @@ services:
 
   pgadmin:
     container_name: redaudioapi-pgadmin
+    hostname: redaudioapi-pgadmin
     image: dpage/pgadmin4:latest
     env_file:
       - .env
     volumes:
        - ./data/pgadmin:/root/.pgadmin
-    ports:
-      - 5050:5050
     networks:
       - redaudioapi-net
     restart: unless-stopped
 
   api:
     container_name: redaudioapi-api
+    hostname: redaudioapi-api
     image: drapersniper/redbot-global-api:latest
 #    image: test
     env_file:
@@ -62,24 +63,14 @@ services:
     depends_on:
       - postgres
       - redis
-    ports:
-      - 8000:8000
     restart: unless-stopped
     links:
       - redis
       - postgres
-#  portainer:
-#    container_name: redaudioapi-portainer
-#    image: portainer/portainer
-#    command: -H unix:///var/run/docker.sock
-#    restart: always
-#    ports:
-#      - 9000:9000
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#      - ./data/portainer:/data
+
   pgbackup:
     container_name: redaudioapi-pgbackup
+    hostname: redaudioapi-pgbackup
     image: kartoza/pg-backup:9.6
     hostname: redaudioapi-pgbackup
     env_file:
