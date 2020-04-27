@@ -31,8 +31,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./scripts:/docker-entrypoint-initdb.d
-      - ./data/postgres:/var/lib/postgresql/data
+      - redaudioapi-pgdata:/var/lib/postgresql/data # Run `docker volume create --name=redaudioapi-pgdata`
     networks:
       - redaudioapi-net
     restart: unless-stopped
@@ -53,14 +52,15 @@ services:
     container_name: redaudioapi-api
     hostname: redaudioapi-api
     image: drapersniper/redbot-global-api:latest
-#    image: test:latest
+#    image: test
     env_file:
       - .env
     environment:
       RED_API_DATABASE: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@redaudioapi-postgres/${POSTGRES_DB}
       REDIS_CACHED_DATA: redis://redaudioapi-redis
     networks:
-      - redaudioapi-net
+      redaudioapi-net:
+        ipv4_address: 172.40.0.2
     depends_on:
       - postgres
       - redis
@@ -82,9 +82,18 @@ services:
       - ./data/backups:/backups
     links:
       - postgres:postgres
+    networks:
+      - redaudioapi-net
     environment:
       - POSTGRES_HOST=redaudioapi-postgres
 
 networks:
   redaudioapi-net:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.40.0.0/16
+
+volumes:
+  redaudioapi-pgdata:
+    external: true
