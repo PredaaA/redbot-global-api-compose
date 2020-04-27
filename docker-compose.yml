@@ -80,10 +80,6 @@ services:
       - postgres:postgres
     environment:
       - POSTGRES_HOST=redaudioapi-postgres
-      - REMOVE_BEFORE=30
-
-volumes:
-  redaudioapi-portainer_data:
 
 networks:
   redaudioapi-net:
