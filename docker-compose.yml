@@ -69,16 +69,16 @@ services:
     links:
       - redis
       - postgres
-  portainer:
-    container_name: redaudioapi-portainer
-    image: portainer/portainer
-    command: -H unix:///var/run/docker.sock
-    restart: always
-    ports:
-      - 9000:9000
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./data/portainer:/data
+#  portainer:
+#    container_name: redaudioapi-portainer
+#    image: portainer/portainer
+#    command: -H unix:///var/run/docker.sock
+#    restart: always
+#    ports:
+#      - 9000:9000
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - ./data/portainer:/data
   pgbackup:
     container_name: redaudioapi-pgbackup
     image: kartoza/pg-backup:9.6
@@ -93,10 +93,6 @@ services:
       - postgres:postgres
     environment:
       - POSTGRES_HOST=redaudioapi-postgres
-      - REMOVE_BEFORE=30
-
-volumes:
-  redaudioapi-portainer_data:
 
 networks:
   redaudioapi-net:
