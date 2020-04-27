@@ -30,7 +30,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./data/postgres:/data/postgres
+      - redaudioapi-pgdata:/var/lib/postgresql/data # Run `docker volume create --name=redaudioapi-pgdata`
     networks:
       - redaudioapi-net
     restart: unless-stopped
@@ -96,3 +96,7 @@ services:
 networks:
   redaudioapi-net:
     driver: bridge
+
+volumes:
+  redaudioapi-pgdata:
+    external: true
