@@ -81,6 +81,8 @@ services:
       - ./data/backups:/backups
     links:
       - postgres:postgres
+    networks:
+      - redaudioapi-net
     environment:
       - POSTGRES_HOST=redaudioapi-postgres
 
